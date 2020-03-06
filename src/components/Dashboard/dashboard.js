@@ -1,16 +1,23 @@
 import React, { useState, useEffect } from "react";
-import { getUser, removeUserSession } from "../../utils/common.js";
+import { getUser, removeUserSession, setUserSession, getToken } from "../../utils/common.js";
 import Axios from "axios";
 
 function Dashboard(props) {
   const user = getUser();
-  const [jokes, setJokes] = useState([]);
+  const token = getToken();
+  const [issues, setIssues] = useState([]);
 
   useEffect(() => {
-    Axios.get("http://localhost:3300/api/jokes").then(res => {
-      setJokes(res);
+    Axios.get("https://bw-pt-co-make5.herokuapp.com/api/issues/").then(res => {
+    setUserSession(token);
+    setIssues(res);
     });
   });
+
+  const fetchIssues = e => {
+    e.preventDefault();
+    setIssues([]);
+  };
 
   // handle click event of logout button
   const handleLogout = () => {
@@ -20,11 +27,14 @@ function Dashboard(props) {
 
   return (
     <div>
-      Welcome {user.name}!<br />
+      Welcome {user.email}!<br />
       <br />
-      Here are your dad jokes!!!!
+      Here is a list of issues!!!!
       <div className="jokes">
-          {jokes.map()}
+        <button onClick={fetchIssues}>Get Issues</button>
+        {issues.map(issue => (
+          <p>{issue}</p>
+        ))}
       </div>
       <input type="button" onClick={handleLogout} value="Logout" />
     </div>

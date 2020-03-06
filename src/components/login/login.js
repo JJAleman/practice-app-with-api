@@ -4,7 +4,7 @@ import { setUserSession } from '../../utils/common.js';
  
 function Login(props) {
   const [loading, setLoading] = useState(false);
-  const username = useFormInput('');
+  const email = useFormInput('');
   const password = useFormInput('');
   const [error, setError] = useState(null);
  
@@ -12,7 +12,8 @@ function Login(props) {
   const handleLogin = () => {
     setError(null);
     setLoading(true);
-    axios.post('http://localhost:3300/api/auth/login', { username: username.value, password: password.value }).then(response => {
+    axios.post('https://bw-pt-co-make5.herokuapp.com/api/auth/login', { email: email.value, password: password.value }).then(response => {
+      console.log("Logged in Successfully!")
       setLoading(false);
       setUserSession(response.data.token, response.data.user);
       props.history.push('/dashboard');
@@ -27,8 +28,8 @@ function Login(props) {
     <div>
       Login<br /><br />
       <div>
-        Username<br />
-        <input type="text" {...username} autoComplete="new-password" />
+        Email<br />
+        <input type="text" {...email} autoComplete="new-password" />
       </div>
       <div style={{ marginTop: 10 }}>
         Password<br />

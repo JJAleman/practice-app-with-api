@@ -20,7 +20,7 @@ function App() {
       return;
     }
  
-    axios.get(`http://localhost:3300/verifyToken?token=${token}`).then(response => {
+    axios.get(`https://bw-pt-co-make5.herokuapp.com/verifyToken?token=${token}`).then(response => {
       setUserSession(response.data.token, response.data.user);
       setAuthLoading(false);
     }).catch(error => {
